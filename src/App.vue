@@ -2,6 +2,7 @@
 import { NConfigProvider, NLayout, NLayoutSider, NLayoutContent } from 'naive-ui'
 import { provideTheme } from '@/composables/useTheme'
 import ThemeToggle from '@/components/ThemeToggle.vue'
+import ChatSidebar from '@/components/ChatSidebar.vue'
 
 const { theme } = provideTheme()
 </script>
@@ -14,11 +15,11 @@ const { theme } = provideTheme()
         :native-scrollbar="false"
         bordered
       >
-        <ThemeToggle />
-        <!-- ChatSidebar -->
+        <ChatSidebar />
       </NLayoutSider>
 
       <NLayoutContent :native-scrollbar="false">
+        <ThemeToggle />
         <RouterView />
       </NLayoutContent>
     </NLayout>
