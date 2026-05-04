@@ -9,21 +9,37 @@ const { theme } = provideTheme()
 
 <template>
   <NConfigProvider :theme="theme">
-    <NLayout has-sider style="height: 100vh">
+    <NLayout has-sider class="app-layout">
       <NLayoutSider
         :width="260"
         :native-scrollbar="false"
         bordered
       >
+        <ThemeToggle />
         <ChatSidebar />
       </NLayoutSider>
 
-      <NLayoutContent :native-scrollbar="false">
-        <ThemeToggle />
+      <NLayoutContent class="app-content">
         <RouterView />
       </NLayoutContent>
     </NLayout>
   </NConfigProvider>
 </template>
 
+<style scoped>
+.app-layout {
+  height: 100vh;
+}
 
+.app-content {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+/* RouterView рендерит обёртку — пробрасываем высоту */
+.app-content :deep(> *) {
+  flex: 1;
+  min-height: 0;
+}
+</style>

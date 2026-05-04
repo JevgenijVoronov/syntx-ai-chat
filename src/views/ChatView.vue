@@ -1,21 +1,12 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import { useRoute } from 'vue-router'
+import ChatWindow from '@/components/ChatWindow.vue'
 
 const route = useRoute()
-const chatId = route.params.id as string
+const chatId = computed(() => route.params.id as string)
 </script>
 
 <template>
-  <div class="chat-view">
-    <p>Chat {{ chatId }}</p>
-    <!-- ChatWindow  -->
-  </div>
+  <ChatWindow :chat-id="chatId" />
 </template>
-
-<style scoped>
-.chat-view {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-</style>

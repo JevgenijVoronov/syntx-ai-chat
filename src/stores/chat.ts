@@ -15,6 +15,16 @@ export interface Chat {
   icon: Component
 }
 
+export type MessageAuthor = 'user' | 'bot'
+
+export interface Message {
+  id:     string
+  chatId: string
+  text:   string
+  author: MessageAuthor
+  createdAt: Date
+}
+
 export const useChatStore = defineStore('chat', () => {
   const chats = ref<Chat[]>([
     { id: '1', name: 'Elvis Presley',   icon: PersonOutline },
@@ -25,5 +35,37 @@ export const useChatStore = defineStore('chat', () => {
     { id: '6', name: 'Adele',           icon: PersonOutline },
   ])
 
-  return { chats }
+  const messages = ref<Record<string, Message[]>>({
+    '1': [
+      { id: '1', chatId: '1', text: 'Привет! зацени мой трэк?', author: 'bot', createdAt: new Date() },
+    ],
+    '2': [
+      { id: '2', chatId: '2', text: 'Что по вайбу', author: 'bot', createdAt: new Date() },
+    ],
+    '3': [],
+    '4': [
+      { id: '3', chatId: '4', text: 'Давай фитанём', author: 'bot', createdAt: new Date() },
+    ],
+    '5': [],
+    '6': [],
+  })
+
+  function getMessages(chatId: string): Message[] {
+    return messages.value[chatId] ?? []
+  }
+
+  function addMessage(chatId: string, text: string, author: MessageAuthor = 'user') {
+    if (!messages.value[chatId]) {
+      messages.value[chatId] = []
+    }
+    messages.value[chatId].push({
+      id: crypto.randomUUID(),
+      chatId,
+      text,
+      author,
+      createdAt: new Date(),
+    })
+  }
+
+  return { chats, messages, getMessages, addMessage }
 })
