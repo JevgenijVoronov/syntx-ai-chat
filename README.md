@@ -42,3 +42,9 @@ npm run test:e2e -- --debug
 ```sh
 npm run lint
 ```
+
+### Production publish
+```
+vercel build --prod
+vercel deploy --prod --prebuilt
+```
