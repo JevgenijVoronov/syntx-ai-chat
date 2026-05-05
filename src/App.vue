@@ -15,11 +15,12 @@ const { theme } = provideTheme()
         :native-scrollbar="false"
         bordered
       >
-        <ThemeToggle />
+
         <ChatSidebar />
       </NLayoutSider>
 
       <NLayoutContent class="app-content">
+        <ThemeToggle />
         <RouterView />
       </NLayoutContent>
     </NLayout>
