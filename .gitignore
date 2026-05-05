@@ -38,6 +38,11 @@ __screenshots__/
 # Vite
 *.timestamp-*-*.mjs
 
+# Environment variables (contains secrets)
+.env
+.env.local
+.env.*.local
+
 test-results/
 playwright-report/
 .vercel

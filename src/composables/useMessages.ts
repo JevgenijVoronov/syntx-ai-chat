@@ -1,38 +1,55 @@
 import { ref, computed } from 'vue'
 import { useChatStore } from '@/stores/chat'
+import { sendMessageToGemini } from '@/services/gemini'
 import type { Ref } from 'vue'
-
-const BOT_REPLIES = [
-  'Понял, спасибо!',
-  'Интересно, расскажи подробнее.',
-  'Хорошо, я разберусь с этим.',
-  'Окей, принято!',
-  'Дай подумаю...',
-  'Согласен с тобой.',
-  'Не уверен, но попробую помочь.',
-]
 
 export function useMessages(chatId: Ref<string>) {
   const store = useChatStore()
   const isSending = ref(false)
+  const error = ref<string | null>(null)
 
   const messages = computed(() => store.getMessages(chatId.value))
+
+  const celebrityName = computed(
+    () => store.chats.find((c) => c.id === chatId.value)?.name ?? '',
+  )
 
   async function send(text: string) {
     if (!text.trim() || isSending.value) return
 
     isSending.value = true
-    
-    await new Promise((resolve) => setTimeout(resolve, 300))
+    error.value = null
+
     store.addMessage(chatId.value, text, 'user')
 
-    isSending.value = false
+    try {
+      let historyRaw = messages.value
+        .slice(-21, -1)
+        .map((msg) => ({
+          role: msg.author === 'user' ? ('user' as const) : ('model' as const),
+          parts: msg.text,
+        }))
 
-    setTimeout(() => {
-      const reply = BOT_REPLIES[Math.floor(Math.random() * BOT_REPLIES.length)] ?? 'Окей!'
+      while (historyRaw.length > 0 && historyRaw[0]?.role !== 'user') {
+        historyRaw = historyRaw.slice(1)
+      }
+
+      const history = historyRaw
+
+      const reply = await sendMessageToGemini(celebrityName.value, text, history)
       store.addMessage(chatId.value, reply, 'bot')
-    }, 1000 + Math.random() * 1000)
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'Ошибка при получении ответа'
+      error.value = message
+      store.addMessage(
+        chatId.value,
+        `⚠️ Ошибка: ${message}`,
+        'bot',
+      )
+    } finally {
+      isSending.value = false
+    }
   }
 
-  return { messages, isSending, send }
+  return { messages, isSending, error, send }
 }

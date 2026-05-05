@@ -17,6 +17,7 @@
     "format": "prettier --write --experimental-cli src/"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.24.1",
     "@vicons/ionicons5": "^0.13.0",
     "naive-ui": "^2.44.1",
     "pinia": "^3.0.4",
