@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, watch, nextTick, computed, toRef, onMounted } from 'vue'
-import { NEmpty } from 'naive-ui'
+import { NEmpty, NButton, NIcon } from 'naive-ui'
+import { ArrowBackOutline } from '@vicons/ionicons5'
 import { useChatStore } from '@/stores/chat'
 import { useMessages } from '@/composables/useMessages'
 import MessageItem from '@/components/MessageItem.vue'
@@ -8,6 +9,10 @@ import MessageInput from '@/components/MessageInput.vue'
 
 const props = defineProps<{
   chatId: string
+}>()
+
+const emit = defineEmits<{
+  back: []
 }>()
 
 const store = useChatStore()
@@ -31,6 +36,11 @@ watch(messages, scrollToBottom, { deep: true })
 <template>
   <div class="chat-window">
     <div class="chat-window__header">
+      <NButton class="chat-window__back" text @click="emit('back')">
+        <template #icon>
+          <NIcon :component="ArrowBackOutline" size="22" />
+        </template>
+      </NButton>
       <span class="chat-window__title">{{ chatName }}</span>
     </div>
 
@@ -60,6 +70,19 @@ watch(messages, scrollToBottom, { deep: true })
   padding: 16px 20px;
   border-bottom: 1px solid rgba(128, 128, 128, 0.2);
   flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.chat-window__back {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  .chat-window__back {
+    display: inline-flex;
+  }
 }
 
 .chat-window__title {

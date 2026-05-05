@@ -1,46 +1,31 @@
 <script setup lang="ts">
-import { NConfigProvider, NLayout, NLayoutSider, NLayoutContent } from 'naive-ui'
+import { NConfigProvider } from 'naive-ui'
 import { provideTheme } from '@/composables/useTheme'
-import ThemeToggle from '@/components/ThemeToggle.vue'
-import ChatSidebar from '@/components/ChatSidebar.vue'
+import DesktopLayout from '@/layouts/DesktopLayout.vue'
+import MobileLayout from '@/layouts/MobileLayout.vue'
 
 const { theme } = provideTheme()
 </script>
 
 <template>
   <NConfigProvider :theme="theme">
-    <NLayout has-sider class="app-layout">
-      <NLayoutSider
-        :width="260"
-        :native-scrollbar="false"
-        bordered
-      >
-
-        <ChatSidebar />
-      </NLayoutSider>
-
-      <NLayoutContent class="app-content">
-        <ThemeToggle />
-        <RouterView />
-      </NLayoutContent>
-    </NLayout>
+    <DesktopLayout class="layout--desktop" />
+    <MobileLayout class="layout--mobile" />
   </NConfigProvider>
 </template>
 
 <style scoped>
-.app-layout {
-  height: 100vh;
+.layout--mobile {
+  display: none;
 }
 
-.app-content {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-}
+@media (max-width: 640px) {
+  .layout--desktop {
+    display: none;
+  }
 
-/* RouterView рендерит обёртку — пробрасываем высоту */
-.app-content :deep(> *) {
-  flex: 1;
-  min-height: 0;
+  .layout--mobile {
+    display: block;
+  }
 }
 </style>

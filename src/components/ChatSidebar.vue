@@ -51,6 +51,7 @@ function isActive(id: string) {
   border-radius: 8px;
   cursor: pointer;
   transition: background 0.2s;
+  min-width: 0;
 }
 
 .chat-item:hover {
@@ -61,8 +62,14 @@ function isActive(id: string) {
   background: rgba(99, 226, 183, 0.15);
 }
 
+
 .chat-item__name {
   font-size: 14px;
   font-weight: 500;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 </style>
