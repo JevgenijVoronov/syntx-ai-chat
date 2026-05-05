@@ -74,15 +74,15 @@ npx vercel dist --prod
 
 ---
 
-## Тесты
+## Tests
 
-### Unit-тесты (Vitest)
+### Unit-test (Vitest)
 
 ```sh
 npm run test:unit
 ```
 
-### E2E-тесты (Playwright)
+### (Playwright)
 
 ```sh
 npx playwright install  
@@ -91,7 +91,7 @@ npm run test:e2e
 
 ---
 
-## Линтинг и форматирование
+## LINT
 
 ```sh
 npm run lint    
