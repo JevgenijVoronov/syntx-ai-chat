@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
-import { NLayout, NLayoutHeader } from 'naive-ui'
+import { NLayout } from 'naive-ui'
 import { useRoute } from 'vue-router'
 import ThemeToggle from '@/components/ThemeToggle.vue'
 import ChatSidebar from '@/components/ChatSidebar.vue'
@@ -8,9 +8,12 @@ import ChatSidebar from '@/components/ChatSidebar.vue'
 const route = useRoute()
 const showSidebar = ref(true)
 
-watch(() => route.params.id, () => {
-  showSidebar.value = false
-})
+watch(
+  () => route.params.id,
+  () => {
+    showSidebar.value = false
+  },
+)
 
 function openSidebar() {
   showSidebar.value = true
@@ -21,10 +24,9 @@ function openSidebar() {
   <div class="mobile-layout">
     <!-- Sidebar panel -->
     <NLayout class="mobile-panel" :class="{ 'mobile-panel--visible': showSidebar }">
-      <NLayoutHeader class="mobile-header" bordered>
-        <span class="mobile-header__title">Чаты</span>
+      <div class="mobile-header-actions">
         <ThemeToggle />
-      </NLayoutHeader>
+      </div>
       <ChatSidebar />
     </NLayout>
 
@@ -57,16 +59,10 @@ function openSidebar() {
   transform: translateX(0);
 }
 
-.mobile-header {
+.mobile-header-actions {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px 16px;
+  justify-content: flex-end;
+  padding: 4px 8px;
   flex-shrink: 0;
-}
-
-.mobile-header__title {
-  font-size: 18px;
-  font-weight: 600;
 }
 </style>
