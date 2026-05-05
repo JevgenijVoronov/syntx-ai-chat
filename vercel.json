@@ -1,6 +1,6 @@
 {
-  "buildCommand": "npm run build-only",
-  "installCommand": "npm install",
+  "buildCommand": "",
+  "installCommand": "",
   "outputDirectory": "dist",
   "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
 }
